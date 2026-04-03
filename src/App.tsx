@@ -40,6 +40,16 @@ function App() {
     setQuarter((q) => q + 1);
   };
 
+  const incrementLightGoal = () => {
+    console.log("updating light goal");
+    setLightGoals((g) => g + 1);
+  };
+
+  const incrementDarkGoal = () => {
+    console.log("updating dark goal");
+    setDarkGoals((g) => g + 1);
+  };
+
   useEffect(() => {
     pausedRef.current = paused;
   }, [paused]);
@@ -71,6 +81,12 @@ function App() {
           break;
         case "q":
           incrementQuarter();
+          break;
+        case "g":
+          incrementLightGoal();
+          break;
+        case "h":
+          incrementDarkGoal();
           break;
       }
     };
