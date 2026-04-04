@@ -33,10 +33,11 @@ div {
 
 .score {
     font-size: 250pt;
+    line-height: 1;
 }
 
 .dark {
-    color: #0022ff;
+    color: #1155ff;
 }
 
 .modal {
@@ -49,4 +50,9 @@ div {
     left: 5%;
     right: 5%;
     padding-top: 15px;
+}
+
+.name {
+    font-size: 50pt;
+    font-weight: 500;
 }
