@@ -179,7 +179,7 @@ function App() {
                   ).format("00")
                 : numeral(ticksRemainingQuarter / 10).format("0.0")}
             </h1>
-            <h2 className="shot-clock">
+            <h2 className={`shot-clock ${ticksRemainingSC > 50 ? "" : "red"}`}>
               {ticksRemainingQuarter > 300
                 ? numeral(ticksRemainingSC / 10).format("0.0")
                 : ""}
