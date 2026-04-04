@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import numeral from "numeral";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 function App() {
   const [ticks, setTicks] = useState(0);
@@ -8,8 +11,16 @@ function App() {
   const [scStartingTicks, setSCStartingTicks] = useState(0);
   const [lightGoals, setLightGoals] = useState(0);
   const [darkGoals, setDarkGoals] = useState(0);
-  const [quarter, setQuarter] = useState(0);
+  const [quarter, setQuarter] = useState(1);
   const [paused, setPaused] = useState(true);
+  const [editing, setEditing] = useState(false);
+
+  const [editMinutes, setEditMinutes] = useState(0);
+  const [editSeconds, setEditSeconds] = useState(0);
+  const [editSC, setEditSC] = useState(0);
+  const [editLightScore, setEditLightScore] = useState(0);
+  const [editDarkScore, setEditDarkScore] = useState(0);
+
   const pausedRef = useRef(paused);
   const ticksRef = useRef(ticks);
 
@@ -50,6 +61,20 @@ function App() {
     setDarkGoals((g) => g + 1);
   };
 
+  const manuallyEditStart = () => {
+    setPaused(true);
+    setEditing(true);
+    setEditMinutes(Math.floor(ticksRemainingQuarter / 600));
+    setEditSeconds(Math.floor((ticksRemainingQuarter % 600) / 10));
+    setEditSC(Math.floor(ticksRemainingSC / 10));
+    setEditLightScore(lightGoals);
+    setEditDarkScore(darkGoals);
+  };
+
+  const manuallyEditEnd = () => {
+    setEditing(false);
+  };
+
   useEffect(() => {
     pausedRef.current = paused;
   }, [paused]);
@@ -87,6 +112,9 @@ function App() {
           break;
         case "h":
           incrementDarkGoal();
+          break;
+        case "m":
+          manuallyEditStart();
           break;
       }
     };
@@ -129,6 +157,22 @@ function App() {
           <h1 className="score dark">{darkGoals}</h1>
         </div>
       </div>
+      <Modal
+        className="modal"
+        isOpen={editing}
+        onRequestClose={manuallyEditEnd}
+      >
+        <h2>Manually change data...</h2>
+        <p>Time</p>
+        <input type="number" value={editMinutes} /> :{" "}
+        <input type="number" value={editSeconds}></input>
+        <p>Shot Clock</p>
+        <input type="number" value={editSC} />
+        <p>Light Team Score</p>
+        <input type="number" value={editLightScore} />
+        <p>Dark Team Score</p>
+        <input type="number" value={editDarkScore} />
+      </Modal>
     </>
   );
 }

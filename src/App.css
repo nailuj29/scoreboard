@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: row;
     height: 100dvh;
+    width: 100vw;
 }
 
 div {
@@ -16,23 +17,36 @@ div {
 }
 
 .timer {
-    font-size: 100pt;
+    font-size: 150pt;
+    height: fit-content;
+    line-height: 1;
 }
 
 .shot-clock {
-    font-size: 50pt;
-    margin-top: 50px;
+    font-size: 125pt;
     color: #999999;
 }
 
 .quarter {
-    font-size: 50pt;
+    font-size: 100pt;
 }
 
 .score {
-    font-size: 150pt;
+    font-size: 250pt;
 }
 
 .dark {
     color: #0022ff;
+}
+
+.modal {
+    position: absolute;
+    background: #26272d;
+    height: 80vh;
+    width: 80vw;
+    top: 5%;
+    bottom: 5%;
+    left: 5%;
+    right: 5%;
+    padding-top: 15px;
 }
