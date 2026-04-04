@@ -70,16 +70,9 @@ function App() {
   };
 
   const manuallyEditStart = () => {
+    console.log("starting manual editing");
     setPaused(true);
     setEditing(true);
-    setEditMinutes(Math.floor(ticksRemainingQuarter / 600));
-    setEditSeconds(Math.floor((ticksRemainingQuarter % 600) / 10));
-    setEditSC(Math.floor(ticksRemainingSC / 10));
-    setEditLightScore(lightGoals);
-    setEditDarkScore(darkGoals);
-    setEditQuarter(quarter);
-    setEditLightName(lightName);
-    setEditDarkName(darkName);
   };
 
   const manuallyEditEnd = () => {
@@ -103,6 +96,26 @@ function App() {
   useEffect(() => {
     pausedRef.current = paused;
   }, [paused]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEditMinutes(Math.floor(ticksRemainingQuarter / 600));
+    setEditSeconds(Math.floor((ticksRemainingQuarter % 600) / 10));
+    setEditSC(Math.floor(ticksRemainingSC / 10));
+    setEditLightScore(lightGoals);
+    setEditDarkScore(darkGoals);
+    setEditQuarter(quarter);
+    setEditLightName(lightName);
+    setEditDarkName(darkName);
+  }, [
+    ticksRemainingQuarter,
+    ticksRemainingSC,
+    lightGoals,
+    darkGoals,
+    quarter,
+    lightName,
+    darkName,
+  ]);
 
   useEffect(() => {
     ticksRef.current = ticks;
@@ -201,6 +214,10 @@ function App() {
         onRequestClose={manuallyEditEnd}
       >
         <h2>Manually change data...</h2>
+        <h3>
+          WARNING: As of right now, this does NOT take into account the previous
+          data.
+        </h3>
         <p>Time</p>
         <input
           type="number"
