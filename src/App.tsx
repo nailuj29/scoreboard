@@ -120,17 +120,17 @@ function App() {
   useEffect(() => {
     ticksRef.current = ticks;
 
-    if (ticks >= scStartingTicks + 300) {
+    if (ticks >= scStartingTicks + 300 && ticksRemainingQuarter > 0) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setPaused(true);
       setSCStartingTicks(ticks);
-      new Audio(Horn).play();
+      new Audio(Buzzer).play();
     }
 
     if (ticksRemainingQuarter <= 0) {
       reset();
       incrementQuarter();
-      new Audio(Buzzer).play();
+      new Audio(Horn).play();
     }
   }, [ticks, scStartingTicks, ticksRemainingQuarter]);
 
@@ -193,9 +193,10 @@ function App() {
                 : numeral(ticksRemainingQuarter / 10).format("0.0")}
             </h1>
             <h2 className={`shot-clock ${ticksRemainingSC > 50 ? "" : "red"}`}>
-              {ticksRemainingQuarter > 300
-                ? numeral(ticksRemainingSC / 10).format("0.0")
-                : ""}
+              {
+                //ticksRemainingQuarter > 300 (leaving this here if i decide to add it back)
+                numeral(ticksRemainingSC / 10).format("0.0")
+              }
             </h2>
 
             <h2 className="quarter">{quarter}</h2>
