@@ -15,6 +15,7 @@ function App() {
   const [darkGoals, setDarkGoals] = useState(0);
   const [quarter, setQuarter] = useState(1);
   const [paused, setPaused] = useState(true);
+  const [SCpaused, setSCPaused] = useState(true);
 
   const [lightName, setLightName] = useState("light");
   const [darkName, setDarkName] = useState("dark");
@@ -38,6 +39,12 @@ function App() {
   const togglePause = () => {
     console.log("pausing/unpausing");
     setPaused((p) => !p);
+    setSCPaused(false);
+  };
+
+  const toggleSCPause = () => {
+    console.log("pausing/unpausing sc");
+    setSCPaused((p) => !p);
   };
 
   const reset = () => {
@@ -67,6 +74,16 @@ function App() {
   const incrementDarkGoal = () => {
     console.log("updating dark goal");
     setDarkGoals((g) => g + 1);
+  };
+
+  const decrementLightGoal = () => {
+    console.log("updating light goal");
+    setLightGoals((g) => g - 1);
+  };
+
+  const decrementDarkGoal = () => {
+    console.log("updating dark goal");
+    setDarkGoals((g) => g - 1);
   };
 
   const manuallyEditStart = () => {
@@ -119,10 +136,14 @@ function App() {
 
   useEffect(() => {
     ticksRef.current = ticks;
+    if (SCpaused && !paused) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSCStartingTicks(ticks - (ticks - scStartingTicks));
+    }
 
     if (ticks >= scStartingTicks + 300 && ticksRemainingQuarter > 0) {
+      // setPaused(true);
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setPaused(true);
       setSCStartingTicks(ticks);
       new Audio(Buzzer).play();
     }
@@ -149,6 +170,9 @@ function App() {
         case "s":
           resetShotClock();
           break;
+        case "a":
+          toggleSCPause();
+          break;
         case "q":
           incrementQuarter();
           break;
@@ -157,6 +181,12 @@ function App() {
           break;
         case "h":
           incrementDarkGoal();
+          break;
+        case "b":
+          decrementLightGoal();
+          break;
+        case "n":
+          decrementDarkGoal();
           break;
         case "m":
           manuallyEditStart();
@@ -181,7 +211,7 @@ function App() {
             <p className="name">{lightName}</p>
           </div>
         </div>
-        <div className="content">
+        <div className="timer-content">
           <div>
             <h1 className="timer">
               {ticksRemainingQuarter > 600
@@ -193,10 +223,9 @@ function App() {
                 : numeral(ticksRemainingQuarter / 10).format("0.0")}
             </h1>
             <h2 className={`shot-clock ${ticksRemainingSC > 50 ? "" : "red"}`}>
-              {
-                //ticksRemainingQuarter > 300 (leaving this here if i decide to add it back)
-                numeral(ticksRemainingSC / 10).format("0.0")
-              }
+              {ticksRemainingQuarter > 300
+                ? numeral(ticksRemainingSC / 10).format("00.0")
+                : numeral(ticksRemainingQuarter / 10).format("00.0")}
             </h2>
 
             <h2 className="quarter">{quarter}</h2>

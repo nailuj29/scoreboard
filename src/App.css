@@ -16,15 +16,24 @@ div {
     justify-content: center;
 }
 
+.timer-content {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .timer {
     font-size: 200pt;
     height: fit-content;
     line-height: 1;
+    font-family: var(--mono);
 }
 
 .shot-clock {
-    font-size: 125pt;
-    color: #999999;
+    font-size: 150pt;
+    color: #cccccc;
+    font-family: var(--mono);
 }
 
 .quarter {
@@ -32,12 +41,12 @@ div {
 }
 
 .score {
-    font-size: 250pt;
+    font-size: 200pt;
     line-height: 1;
 }
 
 .dark {
-    color: #1155ff;
+    color: #ff2222;
 }
 
 .modal {
